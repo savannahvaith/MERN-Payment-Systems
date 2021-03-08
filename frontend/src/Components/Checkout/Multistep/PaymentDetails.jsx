@@ -13,7 +13,7 @@ const initialState = {
     isCardFlipped: false
 };
 
-const PaymentDetails = (props) => {
+const PaymentDetails = ({nextStep, prevStep}) => {
     const [state, setState] = useState(initialState);
     const [currentFocusedElm, setCurrentFocusedElm] = useState(null);
 
@@ -83,8 +83,8 @@ const PaymentDetails = (props) => {
                     ></CreditCard>
                 </CForm>
             </div>
-            <Button onClick={props.prevStep}>Go Back </Button>
-            <Button onClick={props.nextStep}>Next</Button>
+            <Button onClick={prevStep}>Go Back </Button>
+            <Button onClick={nextStep}>Next</Button>
         </div>
     );
 };

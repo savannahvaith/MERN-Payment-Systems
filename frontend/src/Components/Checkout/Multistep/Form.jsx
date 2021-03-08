@@ -91,6 +91,7 @@ export default function CForm({
                         Card Number
                     </label>
                     <input
+                    required
                         type="tel"
                         name="cardNumber"
                         className="card-input__input"
@@ -109,6 +110,7 @@ export default function CForm({
                         Card Holder
                     </label>
                     <input
+                    required
                         type="text"
                         className="card-input__input"
                         autoComplete="off"
@@ -130,6 +132,7 @@ export default function CForm({
                                 Expiration Date
                             </label>
                             <select
+                            required
                                 className="card-input__input -select"
                                 value={cardMonth}
                                 name="cardMonth"
@@ -149,6 +152,7 @@ export default function CForm({
                                 ))}
                             </select>
                             <select
+                            required
                                 name="cardYear"
                                 className="card-input__input -select"
                                 value={cardYear}
@@ -177,6 +181,7 @@ export default function CForm({
                                 CVV
                             </label>
                             <input
+                            required
                                 type="tel"
                                 className="card-input__input"
                                 maxLength="4"

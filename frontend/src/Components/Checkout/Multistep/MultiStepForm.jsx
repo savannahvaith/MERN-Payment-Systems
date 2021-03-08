@@ -1,10 +1,10 @@
 import {useState} from 'react'; 
+import Confirmation from './Confirmation';
 import PaymentDetails from './PaymentDetails';
 import Success from './Success';
 import UserDetails from './UserDetails';
-const MultiStepForm = () => {
+const MultiStepForm = ({step,setStep}) => {
 
-    const [step, setStep] = useState(1);
     const [firstName, setFirstname] = useState('');
     const [secondName, setSecondName] = useState('');
     const [email, setEmail] = useState('');
@@ -19,6 +19,10 @@ const MultiStepForm = () => {
 
     const onChange = (func,event) => {
         func(event.target.value);
+    };
+
+    const onCheck = (func) => {
+        func(!same);
     };
 
     const nextStep = () => {
@@ -36,16 +40,17 @@ const MultiStepForm = () => {
                 handleChange={onChange}
                 sets={functions}
                 values={values}
+                handleCheck={onCheck}
             />
         case 2:
-            return <PaymentDetails nextstep={nextStep} prevStep={prevStep}/>
-        // case 3:
-        //     return <Confirmation
-        //         nextStep={nextStep}
-        //         prevStep={prevStep}
-        //         values={state}
-        //     />
+            return <PaymentDetails nextStep={nextStep} prevStep={prevStep}/>
         case 3:
+            return <Confirmation
+                nextStep={nextStep}
+                prevStep={prevStep}
+                values={values}
+            />
+        case 4:
             return <Success />
     }
 

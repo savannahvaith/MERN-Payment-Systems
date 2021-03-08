@@ -12,6 +12,9 @@ const CARDS = {
     diners: '^(30[0-5]|36)'
 };
 
+const imgPath = "/Card-Background";
+const imgPathCT = "/Card-Type"
+
 const cardBackgroundName = () => {
     let random = Math.floor(Math.random() * 25 + 1);
     return `${random}.jpeg`;
@@ -92,7 +95,7 @@ const CreditCard = ({
                 <div className="card-item__cover">
                     <img
                         alt=""
-                        src={`./Card-Background/${BACKGROUND_IMG}`}
+                        src={`${imgPath}/${BACKGROUND_IMG}`}
                         className="card-item__bg"
                     />
                 </div>
@@ -100,14 +103,14 @@ const CreditCard = ({
                 <div className="card-item__wrapper">
                     <div className="card-item__top">
                         <img
-                            src={'./chip.png'}
-                            alt=""
+                            src={`${imgPath}/chip.png`}
+                            alt="Chip"
                             className="card-item__chip"
                         />
                         <div className="card-item__type">
                             <img
                                 alt={useCardType}
-                                src={`./Card-Type/${useCardType}.png`}
+                                src={`${imgPathCT}/${useCardType}.png`}
                                 className="card-item__typeImg"
                             />
                         </div>
@@ -233,7 +236,7 @@ const CreditCard = ({
                 <div className="card-item__cover">
                     <img
                         alt=""
-                        src={`./Card-Background/${BACKGROUND_IMG}`}
+                        src={`${imgPath}/${BACKGROUND_IMG}`}
                         className="card-item__bg"
                     />
                 </div>
@@ -256,7 +259,7 @@ const CreditCard = ({
                     <div className="card-item__type">
                         <img
                             alt="card-type"
-                            src={'./Card-Type/visa.png'}
+                            src={`${imgPathCT}/visa.png`}
                             className="card-item__typeImg"
                         />
                     </div>
