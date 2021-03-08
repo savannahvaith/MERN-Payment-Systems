@@ -10,7 +10,7 @@ const ProductsContextProvider = ({ children }) => {
         axios.get(`http://localhost:5019/product/getAll`)
         .then( (res) => setProducts(res.data))
         .catch( (err) => console.error(err))
-    })
+    },[]);
 
     return (
         <ProductsContext.Provider value={{ products }} >
