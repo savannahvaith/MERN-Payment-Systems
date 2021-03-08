@@ -2,10 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'semantic-ui-css/semantic.min.css'
+import ProductsContextProvider from './Context/ProductsContext';
+import CartContextProvider from './Context/CartContext';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ProductsContextProvider>
+      <CartContextProvider>
+        <App />
+      </CartContextProvider>
+    </ProductsContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
