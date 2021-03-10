@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Details from './Components/Details';
 import Cart from './Components/Cart/Cart';
 import Stripe from './Components/Checkout/StripeContainer';
-import PaymentDetails from './Components/Checkout/Multistep/PaymentDetails';
 function App() {
   return (
     <>
