@@ -1,46 +1,13 @@
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from 'axios';
-import { Icon, Step, Grid, Segment } from 'semantic-ui-react'
-import { BACKEND_URL } from '../../CONSTS.json';
+import { useContext } from 'react';
+import { CartContext } from '../../Context/CartContext';
+import { Icon, Step, Grid, Segment, Breadcrumb, Image } from 'semantic-ui-react'
 import { useState } from 'react';
 import MultiStepForm from "./Multistep/MultiStepForm";
 
 export const CheckoutForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
 
+    const { total, cartItems, itemCount } = useContext(CartContext);
     const [step, setStep] = useState(1);
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: "card",
-            card: elements.getElement(CardElement),
-        });
-
-        if (!error) {
-            // console.log("Stripe 23 | token generated!", paymentMethod);
-            try {
-                const { id } = paymentMethod;
-                const response = await axios.post(
-                    `${BACKEND_URL}/check/stripe/charge`,
-                    {
-                        amount: 999,
-                        id: id,
-                    }
-                );
-
-                // console.log("Stripe 35 | data", response.data);
-                if (response.data.success) {
-                    console.log("CheckoutForm.js 25 | payment successful!");
-                }
-            } catch (error) {
-                console.log("CheckoutForm.js 28 | ", error);
-            }
-        } else {
-            console.log(error.message);
-        }
-    };
 
     return (
         <div className="container">
@@ -115,13 +82,13 @@ export const CheckoutForm = () => {
 
                     {step == 3 &&
                         <>
-                        <Step completed>
-                            <Icon name='cart' />
-                            <Step.Content>
-                                <Step.Title>Cart</Step.Title>
-                                <Step.Description>Review your cart</Step.Description>
-                            </Step.Content>
-                        </Step>
+                            <Step completed>
+                                <Icon name='cart' />
+                                <Step.Content>
+                                    <Step.Title>Cart</Step.Title>
+                                    <Step.Description>Review your cart</Step.Description>
+                                </Step.Content>
+                            </Step>
                             <Step completed>
                                 <Icon name='truck' />
                                 <Step.Content>
@@ -136,30 +103,30 @@ export const CheckoutForm = () => {
                                     <Step.Description>Enter billing information</Step.Description>
                                 </Step.Content>
                             </Step>
-                        <Step active>
-                            <Icon name='info' />
-                            <Step.Content>
-                                <Step.Title>Confirm Order</Step.Title>
-                            </Step.Content>
-                        </Step>
+                            <Step active>
+                                <Icon name='info' />
+                                <Step.Content>
+                                    <Step.Title>Confirm Order</Step.Title>
+                                </Step.Content>
+                            </Step>
                         </>
                     }
                     {step == 4 &&
                         <>
-                        <Step completed>
-                            <Icon name='cart' />
-                            <Step.Content>
-                                <Step.Title>Cart</Step.Title>
-                                <Step.Description>Review your cart</Step.Description>
-                            </Step.Content>
-                        </Step>
-                        <Step completed>
-                            <Icon name='truck' />
-                            <Step.Content>
-                                <Step.Title>Shipping</Step.Title>
-                                <Step.Description>Choose your shipping options</Step.Description>
-                            </Step.Content>
-                        </Step>
+                            <Step completed>
+                                <Icon name='cart' />
+                                <Step.Content>
+                                    <Step.Title>Cart</Step.Title>
+                                    <Step.Description>Review your cart</Step.Description>
+                                </Step.Content>
+                            </Step>
+                            <Step completed>
+                                <Icon name='truck' />
+                                <Step.Content>
+                                    <Step.Title>Shipping</Step.Title>
+                                    <Step.Description>Choose your shipping options</Step.Description>
+                                </Step.Content>
+                            </Step>
                             <Step completed >
                                 <Icon name='payment' />
                                 <Step.Content>
@@ -179,27 +146,42 @@ export const CheckoutForm = () => {
 
                 </Step.Group>
             </div>
-            {/* <Segment placeholder> */}
+            <br />
             <Grid columns={2} relaxed='very' stackable divided inverted padded>
-                <Grid.Column width={13} >
+                <Grid.Column width={10} >
                     <div className="container">
                         <MultiStepForm step={step} setStep={setStep} />
                     </div>
                 </Grid.Column>
 
-                <Grid.Column width={3} >
+                <Grid.Column width={5} style={{ backgroundColor: "#F5F5F5", height: "80vh" }}>
+                    <br />
                     <Segment color="black">
-                        <p>Hello</p>
+                        <p>Items:</p>
+                        {cartItems.map((i) => (
+                            <>
+                                <div className="row">
+                                    <div className="col-md-8">
+                                        <Image fluid label={{ as: 'a', color: "teal", content: i.quantity, ribbon: "right" }}
+                                            src={i.img} size="small" />
+                                    </div>
+                                    <div className="col-md-4">
+                                        <span className="text-center">{i.price}</span>
+                                    </div>
+                                </div>
+                                <br />
+                            </>
+                        ))}
                         <hr />
-                        <p>$</p>
+                        <p>Total: <b>£{total}</b></p>
                     </Segment>
                 </Grid.Column>
             </Grid>
+            {/* <form onSubmit={handleSubmit} style={{ maxWidth: 400 }}>
+                <CardElement />
+                <button>Pay</button>
+            </form> */}
         </div>
     );
 };
 export default CheckoutForm;
-{/* <form onSubmit={handleSubmit} style={{ maxWidth: 400 }}>
-    <CardElement />
-    <button>Pay</button>
-</form> */}
