@@ -26,14 +26,14 @@ const IndividualItems = ({ product }) => {
                 <button
                     onClick={() => increase(product)}
                     className="btn btn-primary btn-sm mr-2 mb-1">
-                    <i class="plus circle icon"></i>
+                    <i className="plus circle icon"></i>
                 </button>
                 {
                     product.quantity === 1 &&
                     <button
                         onClick={() => removeProduct(product)}
                         className="btn btn-danger btn-sm mb-1">
-                        <i class="ban icon"></i>
+                        <i className="ban icon"></i>
                     </button>
                 }
                 {
@@ -41,7 +41,7 @@ const IndividualItems = ({ product }) => {
                     <button
                         onClick={() => decrease(product)}
                         className="btn btn-danger btn-sm mb-1">
-                        <i class="minus circle icon"></i>
+                        <i className="minus circle icon"></i>
                     </button>
                 }
             </div>
