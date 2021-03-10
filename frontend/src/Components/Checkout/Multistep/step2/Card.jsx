@@ -94,7 +94,7 @@ const CreditCard = ({
                 />
                 <div className="card-item__cover">
                     <img
-                        alt=""
+                        alt="Background img"
                         src={`${imgPath}/${BACKGROUND_IMG}`}
                         className="card-item__bg"
                     />
@@ -235,7 +235,7 @@ const CreditCard = ({
             <div className="card-item__side -back">
                 <div className="card-item__cover">
                     <img
-                        alt=""
+                        alt="Background img"
                         src={`${imgPath}/${BACKGROUND_IMG}`}
                         className="card-item__bg"
                     />

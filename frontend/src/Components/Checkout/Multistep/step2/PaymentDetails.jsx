@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import CForm from './Form';
 import CreditCard from './Card';
 import './Payments.scss';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 
 const initialState = {
     cardNumber: '#### #### #### ####',
@@ -13,7 +13,7 @@ const initialState = {
     isCardFlipped: false
 };
 
-const PaymentDetails = ({nextStep, prevStep}) => {
+const PaymentDetails = ({ nextStep, prevStep }) => {
     const [state, setState] = useState(initialState);
     const [currentFocusedElm, setCurrentFocusedElm] = useState(null);
 
@@ -80,11 +80,24 @@ const PaymentDetails = ({nextStep, prevStep}) => {
                         cardNumberRef={cardElementsRef.cardNumber}
                         cardHolderRef={cardElementsRef.cardHolder}
                         cardDateRef={cardElementsRef.cardDate}
-                    ></CreditCard>
+                    />
                 </CForm>
             </div>
-            <Button onClick={prevStep}>Go Back </Button>
-            <Button onClick={nextStep}>Next</Button>
+            <br />
+            <div className="float-right">
+                <Button animated='vertical' onClick={prevStep}>
+                    <Button.Content hidden>Back</Button.Content>
+                    <Button.Content visible>
+                        <Icon name="caret left"></Icon>
+                    </Button.Content>
+                </Button>
+                <Button animated='vertical' onClick={nextStep}>
+                    <Button.Content hidden>Continue</Button.Content>
+                    <Button.Content visible>
+                        <Icon name="caret right"></Icon>
+                    </Button.Content>
+                </Button>
+            </div>
         </div>
     );
 };
