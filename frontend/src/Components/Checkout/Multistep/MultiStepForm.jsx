@@ -1,8 +1,9 @@
 import {useState} from 'react'; 
-import Confirmation from './Confirmation';
-import PaymentDetails from './PaymentDetails';
+import UserDetails from './step1/UserDetails';
+import PaymentDetails from './step2/PaymentDetails';
+import OrderReview from './step3/OrderReview';
+import Confirmation from './step4/Confirmation';
 import Success from './Success';
-import UserDetails from './UserDetails';
 const MultiStepForm = ({step,setStep}) => {
 
     const [firstName, setFirstname] = useState('');
@@ -11,11 +12,11 @@ const MultiStepForm = ({step,setStep}) => {
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [postCode, setPostCode] = useState('');
-    const [shipping, setShipping] = useState({});
+    const [userDetails, setUserDetails] = useState({});
     const [same,setSame] = useState(false);
 
-    const values = {firstName, secondName,email,address,shipping,same,postCode,city };
-    const functions = {setFirstname, setSecondName, setEmail,setAddress,setCity, setPostCode, setShipping, setSame}
+    const values = { firstName, secondName, email, address, userDetails,same,postCode,city };
+    const functions = { setFirstname, setSecondName, setEmail, setAddress, setCity, setPostCode, setUserDetails, setSame}
 
     const onChange = (func,event) => {
         func(event.target.value);
@@ -43,14 +44,24 @@ const MultiStepForm = ({step,setStep}) => {
                 handleCheck={onCheck}
             />
         case 2:
-            return <PaymentDetails nextStep={nextStep} prevStep={prevStep}/>
-        case 3:
+            return <PaymentDetails 
+                nextStep={nextStep}
+                prevStep={prevStep} 
+                values={values}
+            />
+        case 3: 
+            return <OrderReview 
+                nextStep={nextStep} 
+                prevStep={prevStep}
+                values={values}
+                />
+        case 4:
             return <Confirmation
                 nextStep={nextStep}
                 prevStep={prevStep}
                 values={values}
             />
-        case 4:
+        case 5:
             return <Success />
     }
 
