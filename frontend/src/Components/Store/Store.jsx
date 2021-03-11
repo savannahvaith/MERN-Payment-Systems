@@ -1,8 +1,6 @@
-import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { Dimmer, Loader, Grid } from 'semantic-ui-react';
 import Item from "./Item";
-import { useHistory } from 'react-router-dom';
 import { ProductsContext } from "../../Context/ProductsContext";
 
 const Store = () => {
@@ -11,7 +9,7 @@ const Store = () => {
     useEffect(() => {
         setTimeout(() => {
             setIsLoaded(true);
-        }, 3000)
+        }, 1500)
     }, [])
     const { products } = useContext(ProductsContext);
 
@@ -34,8 +32,8 @@ const Store = () => {
                 <Grid columns={3}>
                     <Grid.Row>
                         {products.map((product) => (
-                            <Grid.Column>
-                                <Item key={product.id} product={product} />
+                            <Grid.Column key={product._id}>
+                                <Item product={product} />
                             </Grid.Column>
                         ))}
                     </Grid.Row>
@@ -43,6 +41,7 @@ const Store = () => {
             </div>
         )
     }
+    // 01:24 / 01:25:50
 
 
 
