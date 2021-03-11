@@ -34,7 +34,7 @@ const Item = ({ product }) => {
                         <Button animated='vertical' onClick={() => increase(product)}>
                             <Button.Content hidden> + More!</Button.Content>
                             <Button.Content visible>
-                                <i class="cart plus icon"></i> 
+                                <i className="cart plus icon"></i> 
                             </Button.Content>
                         </Button>
                     }
@@ -43,11 +43,11 @@ const Item = ({ product }) => {
                         <Button animated='vertical' onClick={() => addProduct(product)}>
                             <Button.Content hidden>Add!</Button.Content>
                             <Button.Content visible>
-                                <i class="shopping cart icon"></i>
+                                <i className="shopping cart icon"></i>
                             </Button.Content>
                         </Button>
                     }
-                    <Button color="secondary" className="btn btn-outline-dark mr-2" onClick={() => details(product._id)}> <i className="info circle icon"></i></Button>
+                    <Button color="teal" className="btn btn-outline-dark mr-2" onClick={() => details(product._id)}> <i className="info circle icon"></i></Button>
                 </Card.Content>
             </Card>
         </>

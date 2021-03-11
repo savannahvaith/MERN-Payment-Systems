@@ -14,7 +14,7 @@ const UserDetails = (props) => {
 
     return (
         <Form onSubmit={saveAndContinue}>
-            <h4 class="ui dividing header">Contact Information</h4>
+            <h4 className="ui dividing header">Contact Information</h4>
             <div className="two fields">
                 <Form.Field>
                     <label>First Name</label>
@@ -48,7 +48,7 @@ const UserDetails = (props) => {
                     defaultValue={props.values.email}
                 />
             </Form.Field>
-            <h4 class="ui dividing header">Shipping Information</h4>
+            <h4 className="ui dividing header">Shipping Information</h4>
             <Form.Field>
                 <label>Address</label>
                 <input

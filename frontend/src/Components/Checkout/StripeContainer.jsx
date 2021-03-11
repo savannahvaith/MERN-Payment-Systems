@@ -5,7 +5,6 @@ import { CheckoutForm } from "./CheckoutForm";
 
 const stripePromise = loadStripe(`${PUBLISHABLE_KEY}`);
 
-
 const Stripe = () => {
     return (
         <Elements stripe={stripePromise}>
