@@ -18,6 +18,8 @@ const OrderReview = (props) => {
     const cardNumber = props.cardState.cardNumber;
     const last4Digs = cardNumber.substring(cardNumber.length, cardNumber.length - 4);
 
+    const value = `${props.cardState.cardMonth}/${props.cardState.cardYear.toString().substr(-2)};`
+
     const { total, cartItems, itemCount, clearCart } = useContext(CartContext);
 
     const cancelOrder = () => {
@@ -31,7 +33,9 @@ const OrderReview = (props) => {
 
     const SubmitOrder = async (event) => {
         event.preventDefault();
+      
         const cardElement = elements.getElement(CForm);
+
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
             billing_details: {
@@ -116,7 +120,7 @@ const OrderReview = (props) => {
                         <Item.Meta>Items: {itemCount}</Item.Meta>
                         {cartItems.map((item) => (
                             <>
-                                <Item.Meta>{item.title}: {item.quantity} x {item.price}</Item.Meta>
+                                <Item.Meta key={item._id}>{item.title}: {item.quantity} x {item.price}</Item.Meta>
                             </>
                         ))}
                         <Item.Description><b>Total:</b> £{total}</Item.Description>
@@ -131,8 +135,6 @@ const OrderReview = (props) => {
             </Item.Group>
         </>
     )
+                        }
 
-
-
-}
 export default OrderReview;

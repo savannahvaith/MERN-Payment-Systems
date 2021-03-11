@@ -4,17 +4,9 @@ import CreditCard from './Card';
 import './Payments.scss';
 import { Button, Icon } from 'semantic-ui-react';
 
-const initialState = {
-    cardNumber: '#### #### #### ####',
-    cardHolder: 'FULL NAME',
-    cardMonth: '',
-    cardYear: '',
-    cardCvv: '',
-    isCardFlipped: false
-};
 
-const PaymentDetails = ({ nextStep, prevStep }) => {
-    const [state, setState] = useState(initialState);
+const PaymentDetails = ({ nextStep, prevStep, state,initialState,setState }) => {
+
     const [currentFocusedElm, setCurrentFocusedElm] = useState(null);
 
     const updateStateValues = useCallback(

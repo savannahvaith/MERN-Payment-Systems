@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 
+import { CardNumberElement, CardCvcElement, CardExpiryElement} from '@stripe/react-stripe-js'
 const currentYear = new Date().getFullYear();
 const monthsArr = Array.from({ length: 12 }, (x, i) => {
     const month = i + 1;
@@ -7,7 +8,7 @@ const monthsArr = Array.from({ length: 12 }, (x, i) => {
 });
 const yearsArr = Array.from({ length: 9 }, (_x, i) => currentYear + i);
 
-export default function CForm({
+export default function CardElement({
     cardMonth,
     cardYear,
     onUpdateState,
@@ -28,8 +29,8 @@ export default function CForm({
     };
 
     // TODO: We can improve the regex check with a better approach like in the card component.
-    const onCardNumberChange = (event) => {
-        let { value, name } = event.target;
+    const onCardNumberChange = ({ target }) => {
+        let { value, name } = target;
         let cardNumber = value;
         value = value.replace(/\D/g, '');
         if (/^3[47]\d{0,13}$/.test(value)) {
@@ -61,27 +62,6 @@ export default function CForm({
         onUpdateState('isCardFlipped', false);
     };
 
-    // NOTE: Currently the cursor on the card number field gets reset if we remove a number, the code bellow was used
-    // in class components, need to transform this to work with functional components.
-    // getSnapshotBeforeUpdate() {
-    //     return this.props.cardNumberRef.current.selectionStart;
-    // }
-
-    // const componentDidUpdate = function (prevProps, prevState, cursorIdx) {
-    //     const node = cardNumberRef.current;
-    //     const { cardNumber: cardNum } = state;
-    //     const { cardNumber: prevCardNum } = prevState;
-    //     if (
-    //         cardNum.length > prevCardNum.length &&
-    //         cardNum[cursorIdx - 1] === ' '
-    //     ) {
-    //         cursorIdx += 1;
-    //     } else if (prevCardNum[cursorIdx - 1] === ' ') {
-    //         cursorIdx -= 1;
-    //     }
-    //     node.selectionStart = node.selectionEnd = cursorIdx;
-    // };
-
     return (
         <div className="card-form">
             <div className="card-list">{children}</div>
@@ -91,7 +71,7 @@ export default function CForm({
                         Card Number
                     </label>
                     <input
-                    required
+                        required
                         type="tel"
                         name="cardNumber"
                         className="card-input__input"
@@ -110,7 +90,7 @@ export default function CForm({
                         Card Holder
                     </label>
                     <input
-                    required
+                        required
                         type="text"
                         className="card-input__input"
                         autoComplete="off"
@@ -132,14 +112,12 @@ export default function CForm({
                                 Expiration Date
                             </label>
                             <select
-                            required
+                                required
                                 className="card-input__input -select"
                                 value={cardMonth}
                                 name="cardMonth"
                                 onChange={handleFormChange}
                                 ref={cardDateRef}
-                                onFocus={(e) => onCardInputFocus(e, 'cardDate')}
-                                onBlur={onCardInputBlur}
                             >
                                 <option value="" disabled>
                                     Month
@@ -152,7 +130,7 @@ export default function CForm({
                                 ))}
                             </select>
                             <select
-                            required
+                                required
                                 name="cardYear"
                                 className="card-input__input -select"
                                 value={cardYear}
@@ -181,7 +159,7 @@ export default function CForm({
                                 CVV
                             </label>
                             <input
-                            required
+                                required
                                 type="tel"
                                 className="card-input__input"
                                 maxLength="4"
