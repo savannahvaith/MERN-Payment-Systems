@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { CartContext } from '../../Context/CartContext';
-import { Icon, Step, Grid, Segment, Breadcrumb, Image } from 'semantic-ui-react'
+import { Icon, Step, Grid, Segment, Item } from 'semantic-ui-react'
 import { useState } from 'react';
 import MultiStepForm from "./Multistep/MultiStepForm";
 
 export const CheckoutForm = () => {
 
-    const { total, cartItems, itemCount } = useContext(CartContext);
+    const { total, cartItems } = useContext(CartContext);
     const [step, setStep] = useState(1);
 
     return (
@@ -14,7 +14,7 @@ export const CheckoutForm = () => {
             <div className="row">
                 <br />
                 <Step.Group>
-                    {step == 1 &&
+                    {step === 1 &&
                         <>
                             <Step completed>
                                 <Icon name='cart' />
@@ -48,7 +48,7 @@ export const CheckoutForm = () => {
 
 
                     {
-                        step == 2 &&
+                        step === 2 &&
                         <>
                             <Step completed>
                                 <Icon name='cart' />
@@ -80,7 +80,7 @@ export const CheckoutForm = () => {
                         </>
                     }
 
-                    {step == 3 &&
+                    {step === 3 &&
                         <>
                             <Step completed>
                                 <Icon name='cart' />
@@ -111,7 +111,7 @@ export const CheckoutForm = () => {
                             </Step>
                         </>
                     }
-                    {step == 4 &&
+                    {step === 4 &&
                         <>
                             <Step completed>
                                 <Icon name='cart' />
@@ -157,21 +157,20 @@ export const CheckoutForm = () => {
                 <Grid.Column width={5} style={{ backgroundColor: "#F5F5F5", height: "80vh" }}>
                     <br />
                     <Segment color="black">
-                        <p>Items:</p>
-                        {cartItems.map((i) => (
-                            <>
-                                <div className="row">
-                                    <div className="col-md-8">
-                                        <Image fluid label={{ as: 'a', color: "teal", content: i.quantity, ribbon: "right" }}
-                                            src={i.img} size="small" />
-                                    </div>
-                                    <div className="col-md-4">
-                                        <span className="text-center">{i.price}</span>
-                                    </div>
-                                </div>
-                                <br />
-                            </>
-                        ))}
+                        <h4>Order Summary</h4>
+                        <Item.Group>
+                            {cartItems.map((i) => (
+                                <Item>
+                                    <Item.Image inline rounded fluid label={{ as: 'a', color: "teal", content: i.quantity, ribbon: "right" }} src={i.img} size="small" />
+                                    <Item.Content>
+                                        <Item.Header>{i.title}</Item.Header>
+                                        <Item.Meta>
+                                            <span className="price">£{i.price}</span>
+                                        </Item.Meta>
+                                    </Item.Content>
+                                </Item>
+                            ))}
+                        </Item.Group>
                         <hr />
                         <p>Total: <b>£{total}</b></p>
                     </Segment>

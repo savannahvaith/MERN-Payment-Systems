@@ -1,30 +1,52 @@
 import { useContext } from 'react';
 import { CartContext } from '../../../../Context/CartContext';
-import {Button} from 'reactstrap';
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { Button, Icon,  Item } from 'semantic-ui-react'
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import CForm from '../step2/Form';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../../CONSTS.json';
+import { useHistory } from 'react-router-dom';
 
 const OrderReview = (props) => {
     const stripe = useStripe();
     const elements = useElements();
-    
-    const { total, cartItems, itemCount } = useContext(CartContext);
+    const history = useHistory();
+
+    const { firstName, secondName, email, address, city, postCode } = props.values;
+    const fullName = firstName + " " + secondName;
+
+    const cardNumber = props.cardState.cardNumber;
+    const last4Digs = cardNumber.substring(cardNumber.length, cardNumber.length - 4);
+
+    const { total, cartItems, itemCount, clearCart } = useContext(CartContext);
+
+    const cancelOrder = () => {
+        clearCart();
+        history.push("/Basket");
+    }
 
     const validateCard = () => {
     }
 
 
-    const handleSubmit = async (event) => {
+    const SubmitOrder = async (event) => {
         event.preventDefault();
+        const cardElement = elements.getElement(CForm);
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
-            billing_details: "",
-            card: elements.getElement(CardElement),
+            billing_details: {
+                address: {
+                    city: city,
+                    postal_code: postCode
+                },
+                email: email,
+                name: fullName
+            },
+            card: cardElement
         });
 
         if (!error) {
-            // console.log("Stripe 23 | token generated!", paymentMethod);
+            console.log("Stripe 23 | token generated!", paymentMethod);
             try {
                 const { id } = paymentMethod;
                 const response = await axios.post(
@@ -35,7 +57,7 @@ const OrderReview = (props) => {
                     }
                 );
 
-                // console.log("Stripe 35 | data", response.data);
+                console.log("Stripe 35 | data", response.data);
                 if (response.data.success) {
                     console.log("CheckoutForm.js 25 | payment successful!");
                 }
@@ -47,24 +69,70 @@ const OrderReview = (props) => {
         }
     };
 
-
-    // break down of total price
-    // shipping and billing information 
-    // Place order.. 
-
-    return(
+    return (
         <>
-            <h2>Please Review</h2>
-            <p>Totle : £{total}</p>
-            <p>Products: {itemCount}</p>
-            {cartItems.map((item) => (
-                <p>{item.title}</p>
-            ))}
-            <Button onClick={props.prevStep}>Back</Button>
+            <Item.Group relaxed divided>
+                <Item>
+                    <Icon size='large' name='user outline' color="teal" as="i" circular />
+                    <Item.Content verticalAlign='middle'>
+                        <Item.Header> User Information</Item.Header>
+                        <br />
+                        <Item.Description>{email}</Item.Description>
+                        <br />
+                        <Item.Meta>Shipping Information:</Item.Meta>
+                        <Item.Meta>{firstName} {secondName}</Item.Meta>
+                        <Item.Meta>{address}</Item.Meta>
+                        <Item.Meta>{city}, {postCode}</Item.Meta>
+                        <Item.Extra>
+                            <Button color="teal" floated='right' onClick={() => props.changeStep(2)}>Change</Button>
+                        </Item.Extra>
+                    </Item.Content>
+                </Item>
+
+                <Item>
+                    <Icon size='large' name='payment' color="teal" as="i" circular />
+
+                    <Item.Content verticalAlign='middle'>
+                        <Item.Header> Payment</Item.Header>
+                        <Item.Description>Card:  **** **** **** {last4Digs} </Item.Description>
+                        <br />
+                        <Item.Meta>Billing Information:</Item.Meta>
+                        <Item.Meta>{firstName} {secondName}</Item.Meta>
+                        <Item.Meta>{address}</Item.Meta>
+                        <Item.Meta>{city}, {postCode}</Item.Meta>
+                        <Item.Extra verticalAlign="right">
+                            <Button color="teal" floated='right' onClick={() => props.changeStep(1)}>Change</Button>
+                        </Item.Extra>
+                    </Item.Content>
+                </Item>
+
+                <Item>
+                    <Icon size='large' name='send' color="teal" as="i" circular />
+
+                    <Item.Content verticalAlign='middle'>
+                        <Item.Header>Confirm Order</Item.Header>
+                        <br />
+                        <br />
+                        <Item.Meta>Items: {itemCount}</Item.Meta>
+                        {cartItems.map((item) => (
+                            <>
+                                <Item.Meta>{item.title}: {item.quantity} x {item.price}</Item.Meta>
+                            </>
+                        ))}
+                        <Item.Description><b>Total:</b> £{total}</Item.Description>
+                        <Item.Extra>
+                            <form onSubmit={SubmitOrder}>
+                                <Button color="teal" floated='right' onClick={SubmitOrder}>Place Order</Button>
+                                <Button color="red" floated="right" onClick={cancelOrder}>Cancel</Button>
+                            </form>
+                        </Item.Extra>
+                    </Item.Content>
+                </Item>
+            </Item.Group>
         </>
     )
 
 
 
 }
-export default OrderReview; 
+export default OrderReview;

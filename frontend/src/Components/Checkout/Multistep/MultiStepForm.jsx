@@ -1,4 +1,5 @@
 import {useState} from 'react'; 
+import Cart from '../../Cart/Cart';
 import UserDetails from './step1/UserDetails';
 import PaymentDetails from './step2/PaymentDetails';
 import OrderReview from './step3/OrderReview';
@@ -15,6 +16,16 @@ const MultiStepForm = ({step,setStep}) => {
     const [userDetails, setUserDetails] = useState({});
     const [same,setSame] = useState(false);
 
+    const initialState = {
+        cardNumber: '#### #### #### ####',
+        cardHolder: 'FULL NAME',
+        cardMonth: '',
+        cardYear: '',
+        cardCvv: '',
+        isCardFlipped: false
+    };
+    const [state, setState] = useState(initialState);
+
     const values = { firstName, secondName, email, address, userDetails,same,postCode,city };
     const functions = { setFirstname, setSecondName, setEmail, setAddress, setCity, setPostCode, setUserDetails, setSame}
 
@@ -25,6 +36,10 @@ const MultiStepForm = ({step,setStep}) => {
     const onCheck = (func) => {
         func(!same);
     };
+
+    const changeStep = (val) => {
+        setStep( s=> s-val);
+    }
 
     const nextStep = () => {
         setStep(s => s+1); 
@@ -48,11 +63,16 @@ const MultiStepForm = ({step,setStep}) => {
                 nextStep={nextStep}
                 prevStep={prevStep} 
                 values={values}
+                initialState={initialState}
+                state={state}
+                setState={setState}
             />
         case 3: 
             return <OrderReview 
                 nextStep={nextStep} 
                 prevStep={prevStep}
+                changeStep={changeStep}
+                cardState={state}
                 values={values}
                 />
         case 4:
@@ -63,6 +83,8 @@ const MultiStepForm = ({step,setStep}) => {
             />
         case 5:
             return <Success />
+        default:
+            return <Cart/>
     }
 
 }

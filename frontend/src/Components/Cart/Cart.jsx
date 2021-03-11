@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 const Cart = () => {
     const history = useHistory();
-    const { total, cartItems, itemCount, clearCart, checkout } = useContext(CartContext);
+    const { total, cartItems, itemCount, clearCart } = useContext(CartContext);
 
     const handleCheckout = () => {
         history.push(`/Checkout`);

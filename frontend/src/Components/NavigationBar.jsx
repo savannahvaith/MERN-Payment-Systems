@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Navbar, Nav, Collapse, NavItem, NavLink, NavbarBrand, NavbarToggler, NavbarText } from 'reactstrap';
+import { Navbar, Nav, Collapse, NavItem, NavLink, NavbarBrand, NavbarToggler } from 'reactstrap';
 import { Icon, Label, Menu } from 'semantic-ui-react';
 import { CartContext } from '../Context/CartContext';
 const NavigationBar = (props) => {
@@ -21,10 +21,9 @@ const NavigationBar = (props) => {
                     </Nav>
                     <NavLink href="/Basket">
                         <Menu compact>
-                            <Menu.Item as='a'>
-                            <Icon name="shopping basket icon" size="large" /> 
-                                <Label color="teal" floating> ({itemCount})
-                                </Label>
+                            <Menu.Item as='li'>
+                            <Icon name="shopping basket" size="large" /> 
+                                <Label color="teal" floating> ({itemCount})</Label>
                             </Menu.Item>
                         </Menu>
                     </NavLink>
