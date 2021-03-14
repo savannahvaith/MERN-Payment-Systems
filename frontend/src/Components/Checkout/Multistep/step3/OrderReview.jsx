@@ -1,16 +1,12 @@
 import { useContext } from 'react';
 import { CartContext } from '../../../../Context/CartContext';
 import { Button, Icon, Item } from 'semantic-ui-react'
-import axios from 'axios';
-import { BACKEND_URL } from '../../../../CONSTS.json';
 import { useHistory } from 'react-router-dom';
 
 const OrderReview = (props) => {
     const history = useHistory();
 
     const { userDetails } = props.values;
-    const fullName = userDetails.firstName + " " + userDetails.secondName;
-
     const { total, cartItems, itemCount, clearCart } = useContext(CartContext);
 
     const cancelOrder = () => {
@@ -37,7 +33,7 @@ const OrderReview = (props) => {
             <Item.Group relaxed divided>
                 <Item>
                     <Icon size='large' name='user outline' color="teal" as="i" circular />
-                    <Item.Content verticalAlign='middle'>
+                    <Item.Content verticalalign='middle'>
                         <Item.Header> User Information</Item.Header>
                         <br />
                         <Item.Description>{userDetails.email}</Item.Description>
@@ -55,7 +51,7 @@ const OrderReview = (props) => {
                 <Item>
                     <Icon size='large' name='payment' color="teal" as="i" circular />
 
-                    <Item.Content verticalAlign='middle'>
+                    <Item.Content verticalalign='middle'>
                         <Item.Header> Payment</Item.Header>
                         <Item.Description>Card:  **** **** **** 1234 </Item.Description>
                         <br />
@@ -63,7 +59,7 @@ const OrderReview = (props) => {
                         <Item.Meta>{titleCase("S Vaithilingam")}</Item.Meta>
                         <Item.Meta>{userDetails.billing_address.street}</Item.Meta>
                         <Item.Meta>{userDetails.billing_address.city}, {userDetails.billing_address.postCode}</Item.Meta>
-                        <Item.Extra verticalAlign="right">
+                        <Item.Extra verticalalign="right">
                             <Button color="teal" floated='right' onClick={() => props.changeStep(1)}>Change</Button>
                         </Item.Extra>
                     </Item.Content>
@@ -72,14 +68,14 @@ const OrderReview = (props) => {
                 <Item>
                     <Icon size='large' name='send' color="teal" as="i" circular />
 
-                    <Item.Content verticalAlign='middle'>
+                    <Item.Content verticalalign='middle'>
                         <Item.Header>Confirm Order</Item.Header>
                         <br />
                         <br />
                         <Item.Meta>Items: {itemCount}</Item.Meta>
-                        {cartItems.map((item) => (
+                        {cartItems.map((item,i) => (
                             <>
-                                <Item.Meta key={item._id}>{item.title}: {item.quantity} x {item.price}</Item.Meta>
+                                <Item.Meta key={i}>{item.title}: {item.quantity} x {item.price}</Item.Meta>
                             </>
                         ))}
                         <Item.Description><b>Total:</b> £{total}</Item.Description>
