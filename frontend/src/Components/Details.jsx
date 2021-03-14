@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import {BACKEND_URL} from '../CONSTS.json';
 import axios from 'axios';
 
 const Details = () => {
@@ -8,7 +9,7 @@ const Details = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:5019/product/get/${id}`)
+        axios.get(`${BACKEND_URL}/product/get/${id}`)
             .then(res => setData(res.data))
             .catch(err => console.error(err));
     }, [id]);
