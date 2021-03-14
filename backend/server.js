@@ -8,9 +8,7 @@ app.use(bodyParser.json());
 
 require('dotenv').config();
 
-const checkoutRoutes = require('./Routes/checkout');
 const productRoute = require('./Routes/Product');
-app.use(`/check`, checkoutRoutes);
 app.use(`/product`,productRoute);
 
 const server = app.listen('5019', () => {
