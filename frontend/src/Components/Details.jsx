@@ -20,7 +20,7 @@ const Details = () => {
             <br/>
             <div className="row">
                 <div className="col-md-4">
-                    <img alt="product image" src={data.img} height="100%" width="100%" />
+                    <img alt="product" src={data.img} height="100%" width="100%" />
                 </div>
                 <div className="col-md-8">
                     <div className="container text-center" style={{border:"solid 0.5px"}}>
