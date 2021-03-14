@@ -1,6 +1,5 @@
-# MERN Payment Systems
+# MERN PayPal
 
-This repo will have the different payment methods.
-The main branch has the base code, with a clean front-end, switch through the different branches to see different implementations of payment methods:
+This implementation includes the frontend as seen on [main](https://github.com/savannahvaith/MERN-Payment-Systems/tree/main) with integration of Paypal
 
-* [Stripe](https://github.com/savannahvaith/MERN-Payment-Systems/tree/Stripe)
+
