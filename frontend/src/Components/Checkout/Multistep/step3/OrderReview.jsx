@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { CartContext } from '../../../../Context/CartContext';
-import { Button, Icon,  Item } from 'semantic-ui-react'
+import { Button, Icon, Item } from 'semantic-ui-react'
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import CForm from '../step2/Form';
 import axios from 'axios';
@@ -12,8 +12,8 @@ const OrderReview = (props) => {
     const elements = useElements();
     const history = useHistory();
 
-    const { firstName, secondName, email, address, city, postCode } = props.values;
-    const fullName = firstName + " " + secondName;
+    const { userDetails } = props.values;
+    const fullName = userDetails.firstName + " " + userDetails.secondName;
 
     const cardNumber = props.cardState.cardNumber;
     const last4Digs = cardNumber.substring(cardNumber.length, cardNumber.length - 4);
@@ -27,23 +27,24 @@ const OrderReview = (props) => {
         history.push("/Basket");
     }
 
-    const validateCard = () => {
-    }
+    const titleCase = (str)=> {
+         str = str.toLowerCase().split(' '); 
+        for  (let i = 0; i < str.length; i++) 
+        { str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); } 
+        return str.join(' '); 
+    } 
 
 
     const SubmitOrder = async (event) => {
         event.preventDefault();
-      
+
         const cardElement = elements.getElement(CForm);
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: "card",
             billing_details: {
-                address: {
-                    city: city,
-                    postal_code: postCode
-                },
-                email: email,
+                address: userDetails.billingAddress,
+                email: userDetails.email,
                 name: fullName
             },
             card: cardElement
@@ -81,12 +82,12 @@ const OrderReview = (props) => {
                     <Item.Content verticalAlign='middle'>
                         <Item.Header> User Information</Item.Header>
                         <br />
-                        <Item.Description>{email}</Item.Description>
+                        <Item.Description>{userDetails.email}</Item.Description>
                         <br />
                         <Item.Meta>Shipping Information:</Item.Meta>
-                        <Item.Meta>{firstName} {secondName}</Item.Meta>
-                        <Item.Meta>{address}</Item.Meta>
-                        <Item.Meta>{city}, {postCode}</Item.Meta>
+                        <Item.Meta>{userDetails.firstName} {userDetails.secondName}</Item.Meta>
+                        <Item.Meta>{userDetails.shipping_address.street}</Item.Meta>
+                        <Item.Meta>{userDetails.shipping_address.city}, {userDetails.shipping_address.postCode}</Item.Meta>
                         <Item.Extra>
                             <Button color="teal" floated='right' onClick={() => props.changeStep(2)}>Change</Button>
                         </Item.Extra>
@@ -101,9 +102,9 @@ const OrderReview = (props) => {
                         <Item.Description>Card:  **** **** **** {last4Digs} </Item.Description>
                         <br />
                         <Item.Meta>Billing Information:</Item.Meta>
-                        <Item.Meta>{firstName} {secondName}</Item.Meta>
-                        <Item.Meta>{address}</Item.Meta>
-                        <Item.Meta>{city}, {postCode}</Item.Meta>
+                        <Item.Meta>{titleCase(props.cardState.cardHolder)}</Item.Meta>
+                        <Item.Meta>{userDetails.billing_address.street}</Item.Meta>
+                        <Item.Meta>{userDetails.billing_address.city}, {userDetails.billing_address.postCode}</Item.Meta>
                         <Item.Extra verticalAlign="right">
                             <Button color="teal" floated='right' onClick={() => props.changeStep(1)}>Change</Button>
                         </Item.Extra>
@@ -135,6 +136,6 @@ const OrderReview = (props) => {
             </Item.Group>
         </>
     )
-                        }
+}
 
 export default OrderReview;

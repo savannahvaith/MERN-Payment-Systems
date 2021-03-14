@@ -3,11 +3,43 @@ import { useHistory } from 'react-router-dom';
 
 const UserDetails = (props) => {
     const history = useHistory();
-    const { firstName, secondName, email, address, city, postCode } = props.values;
+    const { firstName, secondName, email, address, city, postCode, same, billingAddress, billingCity, billingPostCode } = props.values;
 
     const saveAndContinue = (e) => {
         e.preventDefault();
-        props.sets.setUserDetails({ firstName, secondName, email, "shipping_address": { "street": address, city, postCode } });
+        if(same){
+            props.sets.setUserDetails({
+                firstName,
+                secondName,
+                email,
+                "shipping_address": {
+                    "street": address,
+                    city,
+                    postCode
+                },
+                "billing_address": {
+                    "street": address,
+                    city,
+                    postCode
+                }
+            });
+        }else if(!same){
+            props.sets.setUserDetails({
+                firstName,
+                secondName,
+                email,
+                "shipping_address": {
+                    "street": address,
+                    city,
+                    postCode
+                },
+                "billing_address": {
+                    "street": billingAddress,
+                    "city": billingCity,
+                    "postCode": billingPostCode
+                }
+            });
+        }
         props.nextStep();
     }
 
@@ -23,7 +55,7 @@ const UserDetails = (props) => {
                         className="form-control"
                         placeholder='First Name'
                         onChange={e => props.handleChange(props.sets.setFirstname, e)}
-                        defaultValue={props.values.firstName}
+                        defaultValue={firstName}
                     />
                 </Form.Field>
                 <Form.Field>
@@ -33,7 +65,7 @@ const UserDetails = (props) => {
                         className="form-control"
                         placeholder='Last Name'
                         onChange={e => props.handleChange(props.sets.setSecondName, e)}
-                        defaultValue={props.values.secondName}
+                        defaultValue={secondName}
                     />
                 </Form.Field>
             </div>
@@ -45,7 +77,7 @@ const UserDetails = (props) => {
                     type='email'
                     placeholder='Email Address'
                     onChange={e => props.handleChange(props.sets.setEmail, e)}
-                    defaultValue={props.values.email}
+                    defaultValue={email}
                 />
             </Form.Field>
             <h4 className="ui dividing header">Shipping Information</h4>
@@ -57,7 +89,7 @@ const UserDetails = (props) => {
                     type='text'
                     placeholder='Address'
                     onChange={e => props.handleChange(props.sets.setAddress, e)}
-                    defaultValue={props.values.address}
+                    defaultValue={address}
                 />
             </Form.Field>
             <div className="two fields">
@@ -69,7 +101,7 @@ const UserDetails = (props) => {
                         type='text'
                         placeholder='City'
                         onChange={e => props.handleChange(props.sets.setCity, e)}
-                        defaultValue={props.values.city}
+                        defaultValue={city}
                     />
                 </Form.Field>
                 <Form.Field>
@@ -80,7 +112,7 @@ const UserDetails = (props) => {
                         type='text'
                         placeholder='Post Code'
                         onChange={e => props.handleChange(props.sets.setPostCode, e)}
-                        defaultValue={props.values.postCode}
+                        defaultValue={postCode}
                     />
                 </Form.Field>
                 <Form.Field>
@@ -89,12 +121,12 @@ const UserDetails = (props) => {
                         className="form-control"
                         type="checkbox"
                         onChange={e => props.handleCheck(props.sets.setSame, e)}
-                        defaultChecked={props.values.same}
+                        defaultChecked={same}
                     />
                 </Form.Field>
             </div>
             {
-                props.values.same &&
+                !props.values.same &&
                 <>
                     <Form.Field>
                         <label>Address</label>
@@ -103,8 +135,8 @@ const UserDetails = (props) => {
                             className="form-control"
                             type='text'
                             placeholder='Address'
-                            onChange={e => props.handleChange(props.sets.setAddress, e)}
-                            defaultValue={props.values.address}
+                            onChange={e => props.handleChange(props.sets.setBillingAddress, e)}
+                            defaultValue={props.values.billingAddress}
                         />
                     </Form.Field>
                     <Form.Field>
@@ -114,8 +146,8 @@ const UserDetails = (props) => {
                             className="form-control"
                             type='text'
                             placeholder='City'
-                            onChange={e => props.handleChange(props.sets.setCity, e)}
-                            defaultValue={props.values.city}
+                            onChange={e => props.handleChange(props.sets.setBillingCity, e)}
+                            defaultValue={props.values.billingCity}
                         />
                     </Form.Field>
                     <Form.Field>
@@ -125,13 +157,13 @@ const UserDetails = (props) => {
                             className="form-control"
                             type='text'
                             placeholder='Post Code'
-                            onChange={e => props.handleChange(props.sets.setPostCode, e)}
-                            defaultValue={props.values.postCode}
+                            onChange={e => props.handleChange(props.sets.setBillingPostCode, e)}
+                            defaultValue={props.values.billingPostCode}
                         />
                     </Form.Field>
                 </>
             }
-            <br/>
+            <br />
             <div className="float-right">
                 <Button animated='vertical' onClick={() => history.push("/Basket")}>
                     <Button.Content hidden>Back</Button.Content>

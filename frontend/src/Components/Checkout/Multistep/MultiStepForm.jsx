@@ -13,8 +13,11 @@ const MultiStepForm = ({step,setStep}) => {
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [postCode, setPostCode] = useState('');
+    const [billingAddress, setBillingAddress] = useState('');
+    const [billingCity, setBillingCity] = useState('');
+    const [billingPostCode, setBillingPostCode] = useState('');
     const [userDetails, setUserDetails] = useState({});
-    const [same,setSame] = useState(false);
+    const [same,setSame] = useState(true);
 
     const initialState = {
         cardNumber: '#### #### #### ####',
@@ -26,8 +29,8 @@ const MultiStepForm = ({step,setStep}) => {
     };
     const [state, setState] = useState(initialState);
 
-    const values = { firstName, secondName, email, address, userDetails,same,postCode,city };
-    const functions = { setFirstname, setSecondName, setEmail, setAddress, setCity, setPostCode, setUserDetails, setSame}
+    const values = { firstName, secondName, email, address, userDetails, same, postCode, city, billingAddress, billingCity, billingPostCode };
+    const functions = { setFirstname, setSecondName, setEmail, setAddress, setCity, setPostCode, setUserDetails, setSame, setBillingAddress, setBillingCity, setBillingPostCode}
 
     const onChange = (func,event) => {
         func(event.target.value);
