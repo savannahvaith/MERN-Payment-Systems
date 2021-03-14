@@ -3,7 +3,7 @@ import Store from './Components/Store/Store';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Details from './Components/Details';
 import Cart from './Components/Cart/Cart';
-import Stripe from './Components/Checkout/StripeContainer';
+import CheckoutForm from './Components/Checkout/CheckoutForm';
 function App() {
   return (
     <>
@@ -17,7 +17,7 @@ function App() {
             <Cart/>
           </Route>
           <Route path="/Checkout">
-            <Stripe />
+            <CheckoutForm />
           </Route>
           <Route path="/details/:id">
             <Details/>

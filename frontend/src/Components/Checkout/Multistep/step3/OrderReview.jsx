@@ -1,24 +1,15 @@
 import { useContext } from 'react';
 import { CartContext } from '../../../../Context/CartContext';
 import { Button, Icon, Item } from 'semantic-ui-react'
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import CForm from '../step2/Form';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../../CONSTS.json';
 import { useHistory } from 'react-router-dom';
 
 const OrderReview = (props) => {
-    const stripe = useStripe();
-    const elements = useElements();
     const history = useHistory();
 
     const { userDetails } = props.values;
     const fullName = userDetails.firstName + " " + userDetails.secondName;
-
-    const cardNumber = props.cardState.cardNumber;
-    const last4Digs = cardNumber.substring(cardNumber.length, cardNumber.length - 4);
-
-    const value = `${props.cardState.cardMonth}/${props.cardState.cardYear.toString().substr(-2)};`
 
     const { total, cartItems, itemCount, clearCart } = useContext(CartContext);
 
@@ -38,40 +29,7 @@ const OrderReview = (props) => {
     const SubmitOrder = async (event) => {
         event.preventDefault();
 
-        const cardElement = elements.getElement(CForm);
-
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: "card",
-            billing_details: {
-                address: userDetails.billingAddress,
-                email: userDetails.email,
-                name: fullName
-            },
-            card: cardElement
-        });
-
-        if (!error) {
-            console.log("Stripe 23 | token generated!", paymentMethod);
-            try {
-                const { id } = paymentMethod;
-                const response = await axios.post(
-                    `${BACKEND_URL}/check/stripe/charge`,
-                    {
-                        amount: 999,
-                        id: id,
-                    }
-                );
-
-                console.log("Stripe 35 | data", response.data);
-                if (response.data.success) {
-                    console.log("CheckoutForm.js 25 | payment successful!");
-                }
-            } catch (error) {
-                console.log("CheckoutForm.js 28 | ", error);
-            }
-        } else {
-            console.log(error.message);
-        }
+        console.log("cool.. form submitted!");
     };
 
     return (
@@ -99,10 +57,10 @@ const OrderReview = (props) => {
 
                     <Item.Content verticalAlign='middle'>
                         <Item.Header> Payment</Item.Header>
-                        <Item.Description>Card:  **** **** **** {last4Digs} </Item.Description>
+                        <Item.Description>Card:  **** **** **** 1234 </Item.Description>
                         <br />
                         <Item.Meta>Billing Information:</Item.Meta>
-                        <Item.Meta>{titleCase(props.cardState.cardHolder)}</Item.Meta>
+                        <Item.Meta>{titleCase("S Vaithilingam")}</Item.Meta>
                         <Item.Meta>{userDetails.billing_address.street}</Item.Meta>
                         <Item.Meta>{userDetails.billing_address.city}, {userDetails.billing_address.postCode}</Item.Meta>
                         <Item.Extra verticalAlign="right">

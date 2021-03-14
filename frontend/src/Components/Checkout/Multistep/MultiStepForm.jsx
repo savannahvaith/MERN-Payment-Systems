@@ -1,7 +1,6 @@
 import {useState} from 'react'; 
 import Cart from '../../Cart/Cart';
 import UserDetails from './step1/UserDetails';
-import PaymentDetails from './step2/PaymentDetails';
 import OrderReview from './step3/OrderReview';
 import Confirmation from './step4/Confirmation';
 import Success from './Success';
@@ -62,14 +61,7 @@ const MultiStepForm = ({step,setStep}) => {
                 handleCheck={onCheck}
             />
         case 2:
-            return <PaymentDetails 
-                nextStep={nextStep}
-                prevStep={prevStep} 
-                values={values}
-                initialState={initialState}
-                state={state}
-                setState={setState}
-            />
+            return <button onClick={nextStep}>Next Step</button>
         case 3: 
             return <OrderReview 
                 nextStep={nextStep} 
