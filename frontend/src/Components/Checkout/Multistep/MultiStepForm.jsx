@@ -26,7 +26,7 @@ const MultiStepForm = ({step,setStep}) => {
         cardCvv: '',
         isCardFlipped: false
     };
-    const [state, setState] = useState(initialState);
+    const [state] = useState(initialState);
 
     const values = { firstName, secondName, email, address, userDetails, same, postCode, city, billingAddress, billingCity, billingPostCode };
     const functions = { setFirstname, setSecondName, setEmail, setAddress, setCity, setPostCode, setUserDetails, setSame, setBillingAddress, setBillingCity, setBillingPostCode}
