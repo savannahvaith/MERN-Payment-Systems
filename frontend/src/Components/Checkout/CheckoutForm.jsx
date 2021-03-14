@@ -160,8 +160,8 @@ export const CheckoutForm = () => {
                         <h4>Order Summary</h4>
                         <Item.Group>
                             {cartItems.map((i) => (
-                                <Item>
-                                    <Item.Image inline rounded fluid label={{ as: 'a', color: "teal", content: i.quantity, ribbon: "right" }} src={i.img} size="small" />
+                                <Item key={i._id}>
+                                    <Item.Image inline rounded label={{ as: 'a', color: "teal", content: i.quantity, ribbon: "right" }} src={i.img} size="small" />
                                     <Item.Content>
                                         <Item.Header>{i.title}</Item.Header>
                                         <Item.Meta>
